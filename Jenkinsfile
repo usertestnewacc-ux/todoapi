@@ -28,15 +28,17 @@ pipeline {
  
         stage('Create Network') {
             steps {
-                bat "docker network create %NETWORK% 2>nul"
+                bat """
+                docker network inspect %NETWORK% >nul 2>&1 || docker network create %NETWORK%
+                """
             }
         }
  
         stage('Start MySQL') {
             steps {
                 bat """
-                docker rm -f %MYSQL_CONT% 2>nul
- 
+                docker rm -f %MYSQL_CONT% 2>nul || echo No existing MySQL container to remove
+
                 docker run -d --name %MYSQL_CONT% --network %NETWORK% ^
                     -e MYSQL_ROOT_PASSWORD=%MYSQL_PWD% ^
                     -e MYSQL_DATABASE=%MYSQL_DB% ^
@@ -68,15 +70,12 @@ pipeline {
         stage('Run API') {
             steps {
                 bat """
-                docker rm -f %API_CONT% 2>nul
- 
+                docker rm -f %API_CONT% 2>nul || echo No existing API container to remove
+
                 docker run -d --name %API_CONT% --network %NETWORK% ^
                     -e ASPNETCORE_ENVIRONMENT=Development ^
                     -e ASPNETCORE_URLS=http://+:8080 ^
-                    -e MYSQL_CONNECTION_STRING="Server=%MYSQL_CONT%;Port=3306;Database=%MYSQL_DB%;User=root;Password=%MYSQL_PWD%;" ^
-                    -e JWT_ISSUER=linkedin-api ^
-                    -e JWT_AUDIENCE=linkedin-clone ^
-                    -e JWT_SECRET=change-this-development-secret-at-least-32-characters ^
+                    -e MYSQL_CONNECTION_STRING=Server=%MYSQL_CONT%;Port=3306;Database=%MYSQL_DB%;User=root;Password=%MYSQL_PWD%; ^
                     -e JWT_ACCESS_TOKEN_MINUTES=60 ^
                     -e JWT_REFRESH_TOKEN_DAYS=30 ^
                     -e MEDIA_BASE_URL=/media ^
