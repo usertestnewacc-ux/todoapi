@@ -98,6 +98,7 @@ D:\todo\todoapi\obj\Debug\net8.0\todoapi.AssemblyInfo.cs
 D:\todo\todoapi\obj\Debug\net8.0\todoapi.csproj.CoreCompileInputs.cache
 D:\todo\todoapi\obj\Debug\net8.0\todoapi.MvcApplicationPartsAssemblyInfo.cs
 D:\todo\todoapi\obj\Debug\net8.0\todoapi.MvcApplicationPartsAssemblyInfo.cache
+D:\todo\todoapi\obj\Debug\net8.0\todoapi.sourcelink.json
 D:\todo\todoapi\obj\Debug\net8.0\staticwebassets.build.json
 D:\todo\todoapi\obj\Debug\net8.0\staticwebassets.development.json
 D:\todo\todoapi\obj\Debug\net8.0\staticwebassets\msbuild.todoapi.Microsoft.AspNetCore.StaticWebAssets.props
